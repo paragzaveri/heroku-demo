@@ -1,14 +1,15 @@
-const express = require('express')
-const app = express()
-const { layout, instructorUL } = require('./templates')
-const instructors = require('./instructors.json')
-const PORT = process.env.PORT || 3000
+const express = require('express');
+const app = express();
+const { layout, instructorUL } = require('./templates');
+const { Instructor } = require('./models');
+const PORT = process.env.PORT || 3000;
 
 app.get('/', async (req, res, next) => {
-  res.send(layout(instructorUL(instructors)))
-})
+  const instructors = await Instructor.findAll();
+  res.send(layout(instructorUL(instructors)));
+});
 
-app.listen(PORT, (err) => {
+app.listen(PORT, err => {
   if (err) throw err;
-  console.log('listening on port 3000')
-})
+  console.log('listening on port 3000');
+});
